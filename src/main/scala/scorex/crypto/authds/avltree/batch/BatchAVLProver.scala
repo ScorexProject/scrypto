@@ -296,16 +296,14 @@ class BatchAVLProver[D <: Digest, HF <: CryptographicHash[D]](val keyLength: Int
 
     // Recursively reset the new flags
     def resetNew(r: ProverNodes[D]): Unit = {
-      if (r.isNew) {
-        r match {
-          case rn: InternalProverNode[D] =>
-            resetNew(rn.left)
-            resetNew(rn.right)
-          case _ =>
-        }
-        r.isNew = false
-        r.visited = false
+      r match {
+        case rn: InternalProverNode[D] =>
+          resetNew(rn.left)
+          resetNew(rn.right)
+        case _ =>
       }
+      r.isNew = false
+      r.visited = false
     }
 
     packTree(oldTopNode)
